@@ -71,10 +71,10 @@ export default function page() {
           <p className="pt-2 pb-10 text-gray-400 text-sm leading-6">
             Add your details to create a personal touch to your profile.
           </p>
-          <div>
-            <p className="text-gray-400 text-sm">Profile picture</p>
+          <div className="sm:flex sm:items-center sm:h-fit sm:gap-3 bg-[#FAFAFA] py-5 px-5">
+            <p className="text-gray-400 text-sm sm:basis-1/3">Profile picture</p>
             <label className="h-64 bg-[#EFEBFF] w-3/5 flex flex-col items-center justify-center rounded my-5">
-              <img src="assets/images/icon-upload-image.svg" />
+              <img src="assets/images/icon-upload-image.svg" className="sm:basis-1/3"/>
               <span className="text-[#633CFF]">Upload Image</span>
               <input className="hidden" type="file" />
             </label>
@@ -82,7 +82,7 @@ export default function page() {
               Image must be below 1024x1024 px. Use PNG or JPG format
             </p>
           </div>
-          <form onSubmit={(e) => submitName(e)}>
+          <form onSubmit={(e) => submitName(e)} className="bg-[#FAFAFA] p-5 mt-5">
             <div>
               <div className="my-5 sm:flex sm:justify-between">
                 <label className="text-sm">First name</label>
@@ -114,7 +114,7 @@ export default function page() {
             </div>
           </form>
         </div>
-        <div className="sm:h-1/6 my-5 w-full sm:mt-2 bg-white sm:p-5">
+        <div className="sm:h-1/6 my-5 sm:my-0 w-full sm:mt-2 bg-white sm:p-5">
           {fname != "" ? (
             <button
               type="submit"
