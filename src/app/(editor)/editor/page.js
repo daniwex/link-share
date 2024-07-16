@@ -40,7 +40,7 @@ export default function page() {
                 ...numOfTimes,
                 <ShareLink
                   key={numOfTimes.length}
-                  onremove={removeEl()}
+                  onClick = {e => console.log(e.target)}
                 />,
               ]);
             }}

@@ -3,7 +3,7 @@ import React, { useState } from "react";
 export default function ShareLink({ number = 0, onremove, onsubmit, optionvalue, linkValue}) {
   let [data, setData] = useState({})
   return (
-    <div className="mt-7">
+    <div className="mt-7 bg-[#FAFAFA] p-5">
       <div className="flex justify-between">
         <span>Link #{number}</span>
         <button className="text-gray-400 text-sm" onClick={onremove}>
@@ -13,7 +13,7 @@ export default function ShareLink({ number = 0, onremove, onsubmit, optionvalue,
       <form className="mt-2" onSubmit={console.log(data)} >
         <div>
           <label className="text-sm">Platform</label>
-          <select defaultValue={optionvalue} className="block w-full my-2" onChange={e => setData({platform:e.target.value})}>
+          <select  defaultValue={optionvalue} className="block w-full my-2 h-10 px-2" onChange={e => setData({platform:e.target.value})}>
             <option  value="github">&#xf167; &nbsp;  Github</option>
             <option value="youtube">Youtube</option>
             <option value="linkedin">Linkedin</option>
