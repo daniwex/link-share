@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 
-export default function ShareLink({ number = 0, onremove, onchange, getText }) {
+export default function ShareLink({ number = 0, onremove, onsubmit, optionvalue, linkValue}) {
+  let [data, setData] = useState({})
   return (
     <div className="mt-7">
       <div className="flex justify-between">
@@ -9,11 +10,11 @@ export default function ShareLink({ number = 0, onremove, onchange, getText }) {
           Remove
         </button>
       </div>
-      <form className="mt-2" >
+      <form className="mt-2" onSubmit={console.log(data)} >
         <div>
           <label className="text-sm">Platform</label>
-          <select className="block w-full my-2" onChange={onchange}>
-            <option value="github">&#xf167; &nbsp;  Github</option>
+          <select defaultValue={optionvalue} className="block w-full my-2" onChange={e => setData({platform:e.target.value})}>
+            <option  value="github">&#xf167; &nbsp;  Github</option>
             <option value="youtube">Youtube</option>
             <option value="linkedin">Linkedin</option>
             <option value="dev.to">Dev.to</option>
@@ -28,7 +29,8 @@ export default function ShareLink({ number = 0, onremove, onchange, getText }) {
               type="text"
               className="w-full h-full block border-solid border rounded border-gray-300 pl-10"
               placeholder="e.g https://github.com/<username>"
-              onChange={getText}
+              onChange={e => setData({...data, link:e.target.value})}
+              defaultValue={linkValue}
             />
             <img className="img" src="assets/images/icon-link.svg" />
           </div>

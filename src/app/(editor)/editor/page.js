@@ -8,11 +8,15 @@ export default function page() {
   const [createLinkStatus, setCreateLinkStatus] = useState(false);
   const [numOfTimes, setNumOfTimes] = useState([]);
   const [n, setN] = useState(0);
+  const [link, setLink] = useState({});
   function removeEl(e) {
-    console.log(numOfTimes);
-    setN((n) => n - 1);
+    console.log(e.target);
+   
     // setNumOfTimes(numOfTimes.filter(el => el.id != numOfTimes[e].id))
   }
+  const getData = () => {
+    console.log(links);
+  };
 
   return (
     <div className="p-8 sm:py-5 sm:px-0 sm:h-[90vh] sm:bg-[#FAFAFA] sm:w-full flex">
@@ -32,14 +36,11 @@ export default function page() {
           <button
             onClick={() => {
               setCreateLinkStatus(true);
-              setN((n) => n + 1);
               setNumOfTimes([
                 ...numOfTimes,
                 <ShareLink
                   key={numOfTimes.length}
-                  onchange={(e) => console.log(e.target.value)}
-                  onremove={() => removeEl(numOfTimes.length)}
-                  getText={(e) => console.log(e.target.value)}
+                  onremove={removeEl()}
                 />,
               ]);
             }}
@@ -57,6 +58,7 @@ export default function page() {
                   more than one link, you can reorder and edit them. We're here
                   to help you share your profile with everyone!
                 </p>
+                {/* <ShareLink optionvalue="youtube" linkValue="Hello"/> */}
               </div>
             </div>
           ) : (
@@ -64,7 +66,10 @@ export default function page() {
           )}
         </div>
         <div className="sm:h-1/6 sm:mt-2 bg-white p-5">
-          <button className="w-full py-2 sm:w-20 sm:float-right text-white bg-purple-600 rounded">
+          <button
+            type="submit"
+            className="w-full py-2 sm:w-20 sm:float-right text-white bg-purple-600 rounded"
+          >
             Save
           </button>
         </div>
