@@ -2,7 +2,7 @@ import { cookies } from "next/headers";
 
 export function middleware(request) {
   const currentUser = cookies().has("currentUser");
-  if (currentUser && request.nextUrl.pathname.endsWith("/")) {
+  if (currentUser && request.nextUrl.pathname == "/") {
     return Response.redirect(new URL(`/editor`, request.url));
   }
   if (currentUser && request.nextUrl.pathname.endsWith("register")) {
