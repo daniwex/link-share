@@ -8,7 +8,10 @@ export function middleware(request) {
   if (currentUser && request.nextUrl.pathname.endsWith("register")) {
     return Response.redirect(new URL("/editor", request.url));
   }
-  if (!currentUser) {
+  if (!currentUser && request.nextUrl.pathname.endsWith("register")) {
+    return Response.redirect(new URL("/", request.url));
+  }
+  if (!currentUser && request.nextUrl.pathname.endsWith("editor")) {
     return Response.redirect(new URL("/", request.url));
   }
 }
