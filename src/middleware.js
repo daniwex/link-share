@@ -8,9 +8,6 @@ export function middleware(request) {
   if (currentUser && request.nextUrl.pathname.endsWith("register")) {
     return Response.redirect(new URL("/editor", request.url));
   }
-  if (!currentUser && request.nextUrl.pathname.endsWith("register")) {
-    return Response.redirect(new URL("/register", request.url));
-  }
   if (!currentUser && request.nextUrl.pathname.endsWith("profile")) {
     return Response.redirect(new URL("/", request.url));
   }
@@ -19,6 +16,9 @@ export function middleware(request) {
   }
 }
 
-export const config = {
-  matcher: ["/((?!api|_next/static|_nexts|.*\\.svg$).*)"],
-};
+// export const config = {
+//   matcher: ["/((?!api|_next/static|_nexts|.*\\.svg$).*)"],
+// };
+// export const config = {
+//   matcher: ['/profile', '/editor'],
+// }
