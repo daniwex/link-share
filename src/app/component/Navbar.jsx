@@ -9,7 +9,7 @@ export default function Navbar() {
     <nav className="flex h-16 items-center">
       <div className="flex w-full  h-1/2  justify-around">
         <Link href='/'><img className="inline" src="/assets/images/logo-devlinks-small.svg" alt="" /><span className="hidden sm:inline">devlinks</span></Link>
-        <div className="flex justify-around basis-1/3  sm:justify-center">
+        <div className="flex justify-around basis-1/3 md:basis-2/3 sm:justify-center">
           <Link href="/editor" className={` ${pathname == '/editor' ? 'bg-[#EFEBFF] text-[#633CFF]' : '' }  flex px-4 py-1`}>
             <img className="inline sm:pr-2" src="/assets/images/icon-link.svg" />
             <span className="hidden sm:inline">Links</span>

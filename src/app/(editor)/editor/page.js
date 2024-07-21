@@ -10,7 +10,8 @@ export default function page() {
   const [n, setN] = useState(0);
   const [link, setLink] = useState({});
   function removeEl(e) {
-    console.log(e.target);
+    // console.log(e.target.parentNode.parentElement);
+    console.log(numOfTimes)
    
     // setNumOfTimes(numOfTimes.filter(el => el.id != numOfTimes[e].id))
   }
@@ -41,6 +42,8 @@ export default function page() {
                 <ShareLink
                   key={numOfTimes.length}
                   onClick = {e => console.log(e.target)}
+                  number={numOfTimes.length}
+                  onremove={removeEl}
                 />,
               ]);
             }}
@@ -69,6 +72,7 @@ export default function page() {
           <button
             type="submit"
             className="w-full py-2 sm:w-20 sm:float-right text-white bg-purple-600 rounded"
+            onSubmit={console.log()}
           >
             Save
           </button>

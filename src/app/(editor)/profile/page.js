@@ -37,7 +37,7 @@ export default function page() {
     if (response.ok) {
       const f = await response.json();
       const l = await response.json();
-      console.log(response.json());
+      // console.log(response.json());
       setFName(f.firstName);
       setLName(l.lastName);
     }

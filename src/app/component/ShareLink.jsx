@@ -10,7 +10,7 @@ export default function ShareLink({ number = 0, onremove, onsubmit, optionvalue,
           Remove
         </button>
       </div>
-      <form className="mt-2" onSubmit={console.log(data)} >
+      <form className="mt-2" >
         <div>
           <label className="text-sm">Platform</label>
           <select  defaultValue={optionvalue} className="block w-full my-2 h-10 px-2" onChange={e => setData({platform:e.target.value})}>
