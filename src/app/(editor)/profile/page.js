@@ -58,7 +58,7 @@ export default function page() {
     <div className="p-8 sm:py-5 sm:px-0 sm:flex sm:bg-[#FAFAFA] h-[90vh]">
       <div className="hidden sm:flex sm:w-2/5 bg-white justify-center items-center mr-5">
         <img
-          className="w-1/4"
+          className="w-2/5"
           src="assets\images\illustration-phone-mockup.svg"
         />
       </div>

@@ -1,26 +1,64 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ShareLink from "../../component/ShareLink";
+import { genRand } from "../../utilities/randomGenerator";
 
 export default function page() {
+  const [id, setId] = useState(genRand(5));
   const [links, setLinks] = useState([]);
   const [createLinkStatus, setCreateLinkStatus] = useState(false);
   const [numOfTimes, setNumOfTimes] = useState([]);
-  let [n, setN] = useState(0);
   const [link, setLink] = useState({});
   function removeEl(index) {
-    setNumOfTimes(numOfTimes => numOfTimes.filter(el => el.key != index))
+    setNumOfTimes((numOfTimes) => numOfTimes.filter((el) => el.key != index));
+    setLink(links.map((link) => console.log(link.id)));
   }
-  const getData = () => {
-    console.log(links);
+  const handleInputChange = (id, field, value) => {
+    // setLinks(links` => )
+    setLink((link) => (link = { ...link, id, [field]: value }));
   };
+
+  const handleSubmit = async () => {
+    setLinks((links) => (links = [...links, link]));
+    const response = await fetch("/api/editor", {
+      method: "POST",
+      body: JSON.stringify(links),
+    });
+    if (response.ok) {
+      const f = await response.json();
+      console.log(f);
+    }
+  };
+
+  useEffect(
+    () =>
+      async function getLinks() {
+        const data = await fetch("/api/editor");
+        const response = await data.json();
+        console.log(response);
+        setNumOfTimes(
+          (numOfTimes) =>
+            (numOfTimes = [
+              response.map((el) => (
+                <ShareLink
+                  optionvalue={el.platform}
+                  key={el.id}
+                  linkValue={el.link}
+                  onremove={() => removeEl(el.id)} 
+                />
+              )),
+            ])
+        );
+      },
+    []
+  );
 
   return (
     <div className="p-8 sm:py-5 sm:px-0 sm:h-[90vh] sm:bg-[#FAFAFA] sm:w-full flex">
       <div className="hidden sm:flex sm:w-2/5 bg-white justify-center items-center h-full sm:mr-5">
         <img
-          className="w-1/4"
+          className="w-2/5"
           src="assets\images\illustration-phone-mockup.svg"
         />
       </div>
@@ -34,14 +72,20 @@ export default function page() {
           <button
             onClick={() => {
               setCreateLinkStatus(true);
-              setN(n => n+1)
-              setNumOfTimes(numOfTimes =>[
+              setId(genRand(5));
+              setNumOfTimes((numOfTimes) => [
                 ...numOfTimes,
                 <ShareLink
-                  key={n}
-                  onClick = {e => console.log(e.target)}
+                  key={id}
                   number={numOfTimes.length}
-                  onremove={() => removeEl(n)}
+                  onremove={() => removeEl(id)}
+                  onsubmit={(e) => console.log(e)}
+                  selectValue={(e) =>
+                    handleInputChange(id, "platform", e.target.value)
+                  }
+                  inputValue={(e) =>
+                    handleInputChange(id, "link", e.target.value)
+                  }
                 />,
               ]);
               // console.log(numOfTimes)
@@ -64,19 +108,15 @@ export default function page() {
               </div>
             </div>
           ) : (
-            <div>
-              {numOfTimes.map(el => el)}
-            </div>
+            <div>{numOfTimes.map((el) => el)}</div>
           )}
         </div>
         <div className="sm:h-1/6 sm:mt-2 bg-white p-5">
-          <button
+          <input
             type="submit"
             className="w-full py-2 sm:w-20 sm:float-right text-white bg-purple-600 rounded"
-            onSubmit={console.log()}
-          >
-            Save
-          </button>
+            onClick={handleSubmit}
+          />
         </div>
       </div>
     </div>

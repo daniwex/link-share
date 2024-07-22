@@ -28,7 +28,6 @@ export const POST = async (request) => {
   const { firstName, lastName } = await request.json();
   const currentUser = cookies().get("currentUser");
   let user;
-  console.log(firstName, lastName);
   try {
     await connectMongoose();
     user = new Userl({ user: currentUser.value[0], firstName, lastName });
