@@ -11,7 +11,7 @@ export const GET = async (request) => {
         const user = await Userl.findOne({ user: currentUser.value });
         return NextResponse.json(user.links, {status: 200})
     }catch (error) {
-        console.log(error)
+        return NextResponse.json({message:"no items found"})
     }
 }
 
@@ -24,12 +24,12 @@ export const POST = async (req, res) => {
         const user = await Userl.findOne({ user: currentUser.value });
         user.links.push(...Links)
         user.save()
-        return NextResponse.json({message:"saved"},{status:200})
+        return NextResponse.json({message:"Your changes have been successfully saved"},{status:200})
     } catch (error) {
         console.log(error)
+        return NextResponse.json({message:"no items found"})
     }
 
 }
-
 
 

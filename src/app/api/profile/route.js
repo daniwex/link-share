@@ -10,14 +10,14 @@ export const GET = async (request) => {
     await connectMongoose();
     const user = await Userl.findOne({ user: currentUser.value });
     let actualUser = await User.findById(currentUser.value);
+    if (!user) {
+      return NextResponse.json(actualUser.email);
+    }
     let u = {
       firstName: user.firstName,
       lastName: user.lastName,
       email: actualUser.email,
     };
-    if (!user) {
-      return NextResponse.json({ error: "user not found" }, { status: 400 });
-    }
     return NextResponse.json(u, { status: 200 });
   } catch (error) {
     return NextResponse.json(error, { status: 500 });
@@ -27,15 +27,15 @@ export const GET = async (request) => {
 export const POST = async (request) => {
   const { firstName, lastName } = await request.json();
   const currentUser = cookies().get("currentUser");
-  let user;
+  console.log(currentUser.value)
   try {
     await connectMongoose();
-    user = new Userl({ user: currentUser.value[0], firstName, lastName });
+    let user = new Userl({ user: currentUser.value, firstName, lastName });
     if (!user) {
       return NextResponse.json({ error: "user not found" }, { status: 400 });
     }
     await user.save();
-    return NextResponse.json(user, { status: 200 });
+    return NextResponse.json(user, { status: 200});
   } catch (error) {
     return NextResponse.json(error, { status: 500 });
   }

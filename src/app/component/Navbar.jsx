@@ -20,7 +20,7 @@ export default function Navbar() {
           </Link>
         </div>
         <div className="py-2 px-4 border h-full flex items-center rounded border-solid border-[#633CFF]">
-          <Link href="/editor">
+          <Link href="/preview">
             <img className="sm:hidden" src="/assets/images/icon-preview-header.svg" />
             <span className="hidden sm:inline text-[#633CFF]">Preview</span>
           </Link>

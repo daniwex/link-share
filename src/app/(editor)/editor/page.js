@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import ShareLink from "../../component/ShareLink";
 import { genRand } from "../../utilities/randomGenerator";
+import Popup from "@/app/component/popup";
 
 export default function page() {
   const [id, setId] = useState(genRand(5));
@@ -10,53 +11,49 @@ export default function page() {
   const [createLinkStatus, setCreateLinkStatus] = useState(false);
   const [numOfTimes, setNumOfTimes] = useState([]);
   const [link, setLink] = useState({});
+  let [pop, Setpop] = useState("");
   function removeEl(index) {
     setNumOfTimes((numOfTimes) => numOfTimes.filter((el) => el.key != index));
     setLink(links.map((link) => console.log(link.id)));
   }
   const handleInputChange = (id, field, value) => {
-    // setLinks(links` => )
     setLink((link) => (link = { ...link, id, [field]: value }));
   };
 
   const handleSubmit = async () => {
-    setLinks((links) => (links = [...links, link]));
     const response = await fetch("/api/editor", {
       method: "POST",
       body: JSON.stringify(links),
     });
     if (response.ok) {
       const f = await response.json();
-      console.log(f);
+      console.log(f)
+      // Setpop((pop) => (pop = f.message));
     }
   };
 
-  useEffect(
-    () =>
-    {
-      async function getLinks() {
-        const data = await fetch("/api/editor");
-        const response = await data.json();
-        console.log(response);
-        setNumOfTimes(
-          (numOfTimes) =>
-            (numOfTimes = [
-              response.map((el) => (
-                <ShareLink
-                  optionvalue={el.platform}
-                  key={el.id}
-                  linkValue={el.link}
-                  onremove={() => removeEl(el.id)} 
-                />
-              )),
-            ])
-        );
-      };
-      getLinks()
-    },
-  
-    []
-  );
+  useEffect(() => {
+    async function getLinks() {
+      const data = await fetch("/api/editor");
+      const response = await data.json();
+      console.log(response)
+      if(response.message == "no items found") return
+      setNumOfTimes(
+        (numOfTimes) =>
+          (numOfTimes = [
+            response.map((el) => (
+              <ShareLink
+                optionvalue={el.platform}
+                key={el.id}
+                linkValue={el.link}
+                onremove={() => removeEl(el.id)}
+              />
+            )),
+          ])
+      );
+    }
+    getLinks();
+  }, []);
 
   return (
     <div className="p-8 sm:py-5 sm:px-0 sm:h-[90vh] sm:bg-[#FAFAFA] sm:w-full flex">
@@ -92,7 +89,6 @@ export default function page() {
                   }
                 />,
               ]);
-              // console.log(numOfTimes)
             }}
             className="w-full text-purple-600 border border-solid border-purple-600 rounded py-2"
           >
@@ -108,7 +104,6 @@ export default function page() {
                   more than one link, you can reorder and edit them. We're here
                   to help you share your profile with everyone!
                 </p>
-                {/* <ShareLink optionvalue="youtube" linkValue="Hello"/> */}
               </div>
             </div>
           ) : (
@@ -118,11 +113,16 @@ export default function page() {
         <div className="sm:h-1/6 sm:mt-2 bg-white p-5">
           <input
             type="submit"
-            className="w-full py-2 sm:w-20 sm:float-right text-white bg-purple-600 rounded"
-            onClick={handleSubmit}
+            className="w-full py-2 sm:w-20 sm:float-right text-white bg-purple-600 rounded cursor-pointer"
+            onClick={() => {
+              setLinks((links) => (links = [...links, link]));
+              handleSubmit();
+            }}
+            value="Save"
           />
         </div>
       </div>
+      {pop != "" ? <Popup message={pop} close={() => Setpop('')} /> : <></>}
     </div>
   );
 }
