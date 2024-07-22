@@ -5,7 +5,7 @@ export default function page() {
   const [fname, setFName] = useState("");
   const [lname, setLName] = useState("");
   const [email, setEmail] = useState("");
-  async function submitName(e) {
+  async function submitInfo(e) {
     e.preventDefault();
     const data = {
       firstName: fname,
@@ -24,7 +24,7 @@ export default function page() {
     }
   }
 
-  async function submitName(e) {
+  async function updateInfo(e) {
     e.preventDefault();
     const data = {
       firstName: fname,
@@ -36,10 +36,7 @@ export default function page() {
     });
     if (response.ok) {
       const f = await response.json();
-      const l = await response.json();
-      // console.log(response.json());
-      setFName(f.firstName);
-      setLName(l.lastName);
+      console.log(f)
     }
   }
 
@@ -50,7 +47,6 @@ export default function page() {
           method: "GET",
         });
         const response = await data.json();
-        console.log(response);
         setFName(response.firstName);
         setLName(response.lastName);
         setEmail(response.email);
@@ -119,6 +115,7 @@ export default function page() {
             <button
               type="submit"
               className="w-full sm:w-20 sm:float-right text-white bg-purple-600 rounded py-2 my-2"
+              onClick={updateInfo}
             >
               Update
             </button>

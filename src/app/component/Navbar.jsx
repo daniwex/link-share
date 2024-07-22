@@ -6,7 +6,7 @@ import { usePathname } from 'next/navigation'
 export default function Navbar() {
   const pathname = usePathname()
   return (
-    <nav className="flex h-16 items-center">
+    <nav className="flex h-16 items-center sm:text-sm">
       <div className="flex w-full  h-1/2  justify-around">
         <Link href='/'><img className="inline" src="/assets/images/logo-devlinks-small.svg" alt="" /><span className="hidden sm:inline">devlinks</span></Link>
         <div className="flex justify-around basis-1/3 md:basis-2/3 sm:justify-center">

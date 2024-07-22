@@ -7,13 +7,10 @@ export default function page() {
   const [links, setLinks] = useState([]);
   const [createLinkStatus, setCreateLinkStatus] = useState(false);
   const [numOfTimes, setNumOfTimes] = useState([]);
-  const [n, setN] = useState(0);
+  let [n, setN] = useState(0);
   const [link, setLink] = useState({});
-  function removeEl(e) {
-    // console.log(e.target.parentNode.parentElement);
-    console.log(numOfTimes)
-   
-    // setNumOfTimes(numOfTimes.filter(el => el.id != numOfTimes[e].id))
+  function removeEl(index) {
+    setNumOfTimes(numOfTimes => numOfTimes.filter(el => el.key != index))
   }
   const getData = () => {
     console.log(links);
@@ -37,15 +34,17 @@ export default function page() {
           <button
             onClick={() => {
               setCreateLinkStatus(true);
-              setNumOfTimes([
+              setN(n => n+1)
+              setNumOfTimes(numOfTimes =>[
                 ...numOfTimes,
                 <ShareLink
-                  key={numOfTimes.length}
+                  key={n}
                   onClick = {e => console.log(e.target)}
                   number={numOfTimes.length}
-                  onremove={removeEl}
+                  onremove={() => removeEl(n)}
                 />,
               ]);
+              // console.log(numOfTimes)
             }}
             className="w-full text-purple-600 border border-solid border-purple-600 rounded py-2"
           >
@@ -65,7 +64,9 @@ export default function page() {
               </div>
             </div>
           ) : (
-            <div>{numOfTimes}</div>
+            <div>
+              {numOfTimes.map(el => el)}
+            </div>
           )}
         </div>
         <div className="sm:h-1/6 sm:mt-2 bg-white p-5">
