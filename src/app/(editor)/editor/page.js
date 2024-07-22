@@ -33,6 +33,7 @@ export default function page() {
 
   useEffect(
     () =>
+    {
       async function getLinks() {
         const data = await fetch("/api/editor");
         const response = await data.json();
@@ -50,7 +51,10 @@ export default function page() {
               )),
             ])
         );
-      },
+      };
+      getLinks()
+    },
+  
     []
   );
 
