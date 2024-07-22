@@ -42,7 +42,7 @@ export default function page() {
 
   useEffect(
     () =>
-      async function getData() {
+     { async function getData() {
         const data = await fetch("/api/profile", {
           method: "GET",
         });
@@ -51,7 +51,7 @@ export default function page() {
         setFName(response.firstName);
         setLName(response.lastName);
         setEmail(response.email);
-      },
+      }; getData()},
     []
   );
   return (
