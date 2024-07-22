@@ -55,6 +55,7 @@ export default function page() {
         method: "GET",
       });
       const response = await data.json();
+      console.log(typeof response)
       if (typeof response != "object") {
         setSubitted(false)
         setEmail(response);
