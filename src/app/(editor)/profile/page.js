@@ -47,6 +47,7 @@ export default function page() {
           method: "GET",
         });
         const response = await data.json();
+        console.log(response)
         setFName(response.firstName);
         setLName(response.lastName);
         setEmail(response.email);
