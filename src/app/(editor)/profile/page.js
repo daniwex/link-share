@@ -72,7 +72,7 @@ export default function page() {
         setEmail(response.email);
       }
     }
-    getData();
+    // getData();
   }, []);
   return (
     <div className="p-8 sm:py-5 sm:px-0 sm:flex sm:bg-[#FAFAFA] h-[90vh]">
