@@ -1,4 +1,4 @@
-export default function Popup({ message, img, close }) {
+export default function Notify({ message, img, close }) {
   return (
     <div className="text-white p-3 text-sm rounded absolute bottom-12 pop-up flex">
       <div>

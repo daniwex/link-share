@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
-import Popup from "@/app/component/Popup";
+import Popup from "@/app/component/Notify";
 
 export default function page() {
   const [fname, setFName] = useState("");
@@ -55,25 +55,23 @@ export default function page() {
     }
   }
 
-  // useEffect(() => {
-  //   async function getData() {
-  //     const data = await fetch("/api/profile", {
-  //       method: "GET",
-  //     });
-  //     const response = await data.json();
-  //     console.log(response)
-  //     if ( typeof response != 'object') {
-  //       console.log(response)
-  //       setSubitted(false)
-  //       setEmail(response);
-  //     } else {
-  //       setFName(response.firstName);
-  //       setLName(response.lastName);
-  //       setEmail(response.email);
-  //     }
-  //   }
-  //   // getData();
-  // }, []);
+  useEffect(() => {
+    async function getData() {
+      const data = await fetch("/api/profile", {
+        method: "GET",
+      });
+      const response = await data.json();
+      if ( typeof response != 'object') {
+        setSubitted(false)
+        setEmail(response);
+      } else {
+        setFName(response.firstName);
+        setLName(response.lastName);
+        setEmail(response.email);
+      }
+    }
+    getData();
+  }, []);
   return (
     <div className="p-8 sm:py-5 sm:px-0 sm:flex sm:bg-[#FAFAFA] h-[90vh]">
       <div className="hidden sm:flex sm:w-2/5 bg-white justify-center items-center mr-5">

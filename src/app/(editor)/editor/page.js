@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import ShareLink from "../../component/ShareLink";
 import { genRand } from "../../utilities/randomGenerator";
-import Popup from "@/app/component/popup";
+import Popup from "@/app/component/Notify";
 
 export default function page() {
   const [id, setId] = useState(genRand(5));
