@@ -2,7 +2,7 @@ import { model, Schema, models } from "mongoose";
 
 const UserLinksSchema = new Schema({
   user: { type: Schema.Types.ObjectId, ref: "User", required: true },
-  links: {},
+  links: [Schema.Types.Mixed],
   firstName: {
     type: String,
   },

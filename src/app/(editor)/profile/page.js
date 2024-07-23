@@ -77,7 +77,7 @@ export default function page() {
     <div className="p-8 sm:py-5 sm:px-0 sm:flex sm:bg-[#FAFAFA] h-[90vh]">
       <div className="hidden sm:flex sm:w-2/5 bg-white justify-center items-center mr-5">
         <img
-          className="w-2/5"
+          className="w-2/5  aspect-auto md:h-4/5"
           src="assets\images\illustration-phone-mockup.svg"
         />
       </div>
@@ -135,7 +135,7 @@ export default function page() {
             </div>
           </form>
         </div>
-        <div className="sm:h-1/6 my-5 sm:my-0 w-full sm:mt-2 sm:p-5">
+        <div className="sm:h-1/6 my-5 sm:my-0 w-full sm:mt-2 sm:p-5 bg-white">
           {submitted ? (
             <button
               type="submit"

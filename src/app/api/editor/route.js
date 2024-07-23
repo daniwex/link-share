@@ -21,8 +21,11 @@ export const POST = async (req, res) => {
     console.log(Links)
     try {
         await connectMongoose()
-        const user = await Userl.findOne({ user: currentUser.value });
-        user.links.push(...Links)
+        let user = await Userl.findOne({ user: currentUser.value });
+        if(!user){
+            user = new Userl({ user: currentUser.value,links:[] });
+        }
+        user.links.push(Links)
         user.save()
         return NextResponse.json({message:"Your changes have been successfully saved"},{status:200})
     } catch (error) {
@@ -33,3 +36,4 @@ export const POST = async (req, res) => {
 }
 
 
+// https://github.com/daniwex

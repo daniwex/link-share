@@ -4,30 +4,42 @@ import { useEffect, useState } from "react";
 import ShareLink from "../../component/ShareLink";
 import { genRand } from "../../utilities/randomGenerator";
 import Popup from "@/app/component/Notify";
+import LinkBar from "@/app/component/LinkBar";
 
 export default function page() {
   const [id, setId] = useState(genRand(5));
-  const [links, setLinks] = useState([]);
+  let [numOfActiveLinks, setNumOfActiveLinks] = useState([]);
+  let [links, setLinks] = useState({});
   const [createLinkStatus, setCreateLinkStatus] = useState(false);
-  const [numOfTimes, setNumOfTimes] = useState([]);
-  const [link, setLink] = useState({});
+  let [numOfTimes, setNumOfTimes] = useState([]);
+  let [link, setLink] = useState({});
   let [pop, Setpop] = useState("");
+  let [inputValue, setInputValue] = useState("");
+  let [selectValue, setSelectValue] = useState("github");
+  let [top, setTop] = useState(44)
   function removeEl(index) {
     setNumOfTimes((numOfTimes) => numOfTimes.filter((el) => el.key != index));
-    setLink(links.map((link) => console.log(link.id)));
   }
   const handleInputChange = (id, field, value) => {
-    setLink((link) => (link = { ...link, id, [field]: value }));
+    if (value == "" || !value) {
+      Setpop("field cannot be empty");
+      return;
+    }
+    // setLink(link = {platform:"github"})
+    setLink((link = { ...link, id, [field]: value }));
+    setLinks((links) => (links = { ...links, [link.id]: link }));
+    setInputValue(value);
   };
 
   const handleSubmit = async () => {
+    console.log(links);
     const response = await fetch("/api/editor", {
       method: "POST",
       body: JSON.stringify(links),
     });
     if (response.ok) {
       const f = await response.json();
-      console.log(f)
+      console.log(f);
       // Setpop((pop) => (pop = f.message));
     }
   };
@@ -36,32 +48,54 @@ export default function page() {
     async function getLinks() {
       const data = await fetch("/api/editor");
       const response = await data.json();
-      console.log(response)
-      if(response.message == "no items found") return
+      if (response.message == "no items found") return;
+      let arr = [];
+      let res = [];
+      // console.log(Object.values(response[1]))
+      for (const key in response) arr.push(response[key]);
+      for (let i = 0; i < arr.length; i++) {
+        for (const key in arr[i]) {
+          res.push(arr[i][key]);
+        }
+      }
       setNumOfTimes(
-        (numOfTimes) =>
-          (numOfTimes = [
-            response.map((el) => (
-              <ShareLink
-                optionvalue={el.platform}
-                key={el.id}
-                linkValue={el.link}
-                onremove={() => removeEl(el.id)}
-              />
-            )),
-          ])
+        (numOfTimes = res.map((el, index) => (
+          <ShareLink
+            key={el.id}
+            optionvalue={el.platform}
+            linkValue={el.link}
+            number={index}
+          />
+        )))
       );
+      setNumOfActiveLinks(
+        (numOfActiveLinks =
+          numOfTimes.length > 4 ? numOfTimes.slice(0, 5) : [...numOfTimes])
+      );
+      console.log(numOfActiveLinks);
     }
     getLinks();
   }, []);
 
   return (
     <div className="p-8 sm:py-5 sm:px-0 sm:h-[90vh] sm:bg-[#FAFAFA] sm:w-full flex">
-      <div className="hidden sm:flex sm:w-2/5 bg-white justify-center items-center h-full sm:mr-5">
-        <img
-          className="w-2/5"
-          src="assets\images\illustration-phone-mockup.svg"
-        />
+      <div className="hidden sm:flex sm:w-2/5  justify-center items-center h-full sm:mr-5">
+        <div className="w-fit flex justify-center relative">
+          <img
+            className="md:w-4/6 aspect-auto md:h-4/5 "
+            src="assets\images\illustration-phone-mockup.svg"
+          />
+          {numOfActiveLinks.length > 0 ? (
+            numOfActiveLinks.map((el, index) => {
+              if(index > 0){
+                top += 10
+              }
+               return <LinkBar link={el.props.optionvalue} top={`${top}%`} />;
+            })
+          ) : (
+            <></>
+          )}
+        </div>
       </div>
       <div className="sm:w-3/5 sm:overflow-y-scroll sm:flex sm:flex-col sm:justify-between h-full">
         <div className="sm:overflow-y-auto h-5/6 bg-white sm:p-9">
@@ -74,6 +108,8 @@ export default function page() {
             onClick={() => {
               setCreateLinkStatus(true);
               setId(genRand(5));
+              setLink((link = { id, platform: "github" }));
+              setInputValue("");
               setNumOfTimes((numOfTimes) => [
                 ...numOfTimes,
                 <ShareLink
@@ -115,14 +151,13 @@ export default function page() {
             type="submit"
             className="w-full py-2 sm:w-20 sm:float-right text-white bg-purple-600 rounded cursor-pointer"
             onClick={() => {
-              setLinks((links) => (links = [...links, link]));
               handleSubmit();
             }}
             value="Save"
           />
         </div>
       </div>
-      {pop != "" ? <Popup message={pop} close={() => Setpop('')} /> : <></>}
+      {pop != "" ? <Popup message={pop} close={() => Setpop("")} /> : <></>}
     </div>
   );
 }

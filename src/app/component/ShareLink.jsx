@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 
 export default function ShareLink({ number = 0, onremove, onsubmit, optionvalue, linkValue, selectValue, inputValue}) {
-  let [data, setData] = useState({})
   return (
     <div className="mt-7 bg-[#FAFAFA] p-5">
       <div className="flex justify-between">
-        {number > 0 ? <span>Link #{number}</span> : <></>}
+        <span>Link #{number}</span>
         <button className="text-gray-400 text-sm" onClick={onremove}>
           Remove
         </button>
