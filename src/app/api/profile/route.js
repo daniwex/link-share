@@ -8,9 +8,8 @@ export const GET = async (request) => {
   const currentUser = cookies().get("currentUser");
   try {
     await connectMongoose();
-    const user = await Userl.findOne({ user: currentUser.value });
+    const user = await Userl?.findOne({ user: currentUser.value });
     let actualUser = await User.findById(currentUser.value);
-    console.log(user, currentUser)
     if (user == null) {
       return NextResponse.json(actualUser.email);
     }
