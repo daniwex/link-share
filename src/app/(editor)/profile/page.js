@@ -10,12 +10,12 @@ export default function page() {
   let [pop, Setpop] = useState("");
   async function submitInfo(e) {
     e.preventDefault();
-    if(fname == '' || lname == ''){
-      Setpop("First / Last name cannot be empty")
-      setSubitted(false)
-      return
+    if (fname == "" || lname == "") {
+      Setpop("First / Last name cannot be empty");
+      setSubitted(false);
+      return;
     }
-    setSubitted(true)
+    setSubitted(true);
     const data = {
       firstName: fname,
       lastName: lname,
@@ -29,17 +29,17 @@ export default function page() {
       console.log(f);
       setFName(f.firstName);
       setLName(f.lastName);
-      Setpop("Your information has been successfully saved!")
+      Setpop("Your information has been successfully saved!");
     }
   }
 
   async function updateInfo(e) {
     e.preventDefault();
-    console.log(fname, lname)
-    if(fname == '' || lname == ''){
-      Setpop("First / Last name cannot be empty")
-      setSubitted(false)
-      return
+    console.log(fname, lname);
+    if (fname == "" || lname == "") {
+      Setpop("First / Last name cannot be empty");
+      setSubitted(false);
+      return;
     }
     const data = {
       firstName: fname,
@@ -51,7 +51,7 @@ export default function page() {
     });
     if (response.ok) {
       const f = await response.json();
-      Setpop(f.message)
+      Setpop(f.message);
     }
   }
 
@@ -61,10 +61,12 @@ export default function page() {
         method: "GET",
       });
       const response = await data.json();
-      if ( typeof response != 'object') {
-        setSubitted(false)
+      console.log(response);
+      if (typeof response != "object") {
+        setSubitted(false);
         setEmail(response);
       } else {
+        setSubitted(true)
         setFName(response.firstName);
         setLName(response.lastName);
         setEmail(response.email);
