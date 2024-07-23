@@ -38,7 +38,6 @@ export default function page() {
     console.log(fname, lname);
     if (fname == "" || lname == "") {
       Setpop("First / Last name cannot be empty");
-      setSubitted(false);
       return;
     }
     const data = {
