@@ -61,9 +61,11 @@ export default function page() {
         method: "GET",
       });
       const response = await data.json();
-      if (Object.keys(response).length == 1) {
+      console.log(response)
+      if ( typeof response != 'object') {
+        console.log(response)
         setSubitted(false)
-        setEmail(response.email);
+        setEmail(response);
       } else {
         setFName(response.firstName);
         setLName(response.lastName);

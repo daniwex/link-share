@@ -8,9 +8,9 @@ export const GET = async (request) => {
   const currentUser = cookies().get("currentUser");
   try {
     await connectMongoose();
-    const user = await Userl?.find({ user: currentUser.value });
+    const user = await Userl.find({ user: currentUser.value });
     let actualUser = await User.findById(currentUser.value);
-    if (user) {
+    if (user.length > 0) {
       let u = {
         firstName: user.firstName,
         lastName: user.lastName,
@@ -27,7 +27,6 @@ export const GET = async (request) => {
 export const POST = async (request) => {
   const { firstName, lastName } = await request.json();
   const currentUser = cookies().get("currentUser");
-  console.log(currentUser.value);
   try {
     await connectMongoose();
     let user = new Userl({ user: currentUser.value, firstName, lastName });
