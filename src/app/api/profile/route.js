@@ -4,26 +4,26 @@ import Userl from "../database/Models/usermmodel";
 import { cookies } from "next/headers";
 import User from "../database/Models/usermodel";
 
-export const GET = async (request) => {
-  const currentUser = cookies().get("currentUser");
-  try {
-    await connectMongoose();
-    // const user = await Userl.find({ user: currentUser.value });
-    let user
-    let actualUser = await User.findById(currentUser.value);
-    if (user) {
-      let u = {
-        firstName: user.firstName,
-        lastName: user.lastName,
-        email: actualUser.email,
-      };
-      return NextResponse.json(u, { status: 200 });
-    }
-    return NextResponse.json(actualUser.email);
-  } catch (error) {
-    return NextResponse.json(error, { status: 501 });
-  }
-};
+// export const GET = async (request) => {
+//   const currentUser = cookies().get("currentUser");
+//   try {
+//     await connectMongoose();
+//     // const user = await Userl.find({ user: currentUser.value });
+//     let user
+//     let actualUser = await User.findById(currentUser.value);
+//     if (user) {
+//       let u = {
+//         firstName: user.firstName,
+//         lastName: user.lastName,
+//         email: actualUser.email,
+//       };
+//       return NextResponse.json(u, { status: 200 });
+//     }
+//     return NextResponse.json(actualUser.email);
+//   } catch (error) {
+//     return NextResponse.json(error, { status: 501 });
+//   }
+// };
 
 export const POST = async (request) => {
   const { firstName, lastName } = await request.json();
