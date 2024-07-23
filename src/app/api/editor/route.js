@@ -36,4 +36,24 @@ export const POST = async (req, res) => {
 }
 
 
-// https://github.com/daniwex
+export const DELETE = async (req,res) => {
+    const currentUser = cookies().get("currentUser");
+    const id = await req.json()
+    console.log(id)
+    try {
+        await connectMongoose()
+        let user = await Userl.findOne({ user: currentUser.value });
+        const newArr = []
+        for(let i=0;i<user.links.length;i++){
+            if(Object.keys(user.links[i])[0] != id){
+                newArr.push(user.links[i])
+            }
+        }
+        user.links = newArr
+        user.save()
+        return NextResponse.json({message:"Your changes have been successfully saved"},{status:200})
+
+    }catch(error){
+        console.log(error)
+    }
+}

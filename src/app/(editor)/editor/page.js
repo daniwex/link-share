@@ -1,12 +1,15 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import ShareLink from "../../component/ShareLink";
 import { genRand } from "../../utilities/randomGenerator";
 import Popup from "@/app/component/Notify";
 import LinkBar from "@/app/component/LinkBar";
+import { useRouter } from 'next/navigation'
+
 
 export default function page() {
+  const router = useRouter()
   const [id, setId] = useState(genRand(5));
   let [numOfActiveLinks, setNumOfActiveLinks] = useState([]);
   let [links, setLinks] = useState({});
@@ -17,6 +20,7 @@ export default function page() {
   let [inputValue, setInputValue] = useState("");
   let [selectValue, setSelectValue] = useState("github");
   let [top, setTop] = useState(44)
+
   function removeEl(index) {
     setNumOfTimes((numOfTimes) => numOfTimes.filter((el) => el.key != index));
   }
@@ -25,24 +29,34 @@ export default function page() {
       Setpop("field cannot be empty");
       return;
     }
-    // setLink(link = {platform:"github"})
     setLink((link = { ...link, id, [field]: value }));
     setLinks((links) => (links = { ...links, [link.id]: link }));
     setInputValue(value);
   };
 
-  const handleSubmit = async () => {
-    console.log(links);
+  async function handleSubmit() {
     const response = await fetch("/api/editor", {
       method: "POST",
       body: JSON.stringify(links),
     });
     if (response.ok) {
+      router.push("/")
       const f = await response.json();
-      console.log(f);
-      // Setpop((pop) => (pop = f.message));
+      Setpop((pop) => (pop = f.message));
     }
   };
+
+  async function removeHandler(index){
+    const response = await fetch("/api/editor", {
+      method: "DELETE",
+      body: JSON.stringify(index),
+    });
+    if (response.ok) {
+      router.push("editor")
+      const f = await response.json();
+      Setpop((pop) => (pop = f.message));
+    }
+  }
 
   useEffect(() => {
     async function getLinks() {
@@ -65,6 +79,7 @@ export default function page() {
             optionvalue={el.platform}
             linkValue={el.link}
             number={index}
+            onremove={() => removeHandler(el.id)}
           />
         )))
       );
@@ -72,17 +87,16 @@ export default function page() {
         (numOfActiveLinks =
           numOfTimes.length > 4 ? numOfTimes.slice(0, 5) : [...numOfTimes])
       );
-      console.log(numOfActiveLinks);
     }
     getLinks();
   }, []);
 
   return (
     <div className="p-8 sm:py-5 sm:px-0 sm:h-[90vh] sm:bg-[#FAFAFA] sm:w-full flex">
-      <div className="hidden sm:flex sm:w-2/5  justify-center items-center h-full sm:mr-5">
+      <div className="hidden sm:flex sm:w-2/5  justify-center items-center bg-white h-full sm:mr-5">
         <div className="w-fit flex justify-center relative">
           <img
-            className="md:w-4/6 aspect-auto md:h-4/5 "
+            className="sm:w-4/6 aspect-auto md:h-4/5 xl:w-full"
             src="assets\images\illustration-phone-mockup.svg"
           />
           {numOfActiveLinks.length > 0 ? (
