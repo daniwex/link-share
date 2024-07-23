@@ -6,7 +6,7 @@ export default function page() {
   const [fname, setFName] = useState("");
   const [lname, setLName] = useState("");
   const [email, setEmail] = useState("");
-  let [submitted, setSubitted] = useState(true);
+  let [submitted, setSubitted] = useState(false);
   let [pop, Setpop] = useState("");
   async function submitInfo(e) {
     e.preventDefault();
@@ -35,6 +35,12 @@ export default function page() {
 
   async function updateInfo(e) {
     e.preventDefault();
+    console.log(fname, lname)
+    if(fname == '' || lname == ''){
+      Setpop("First / Last name cannot be empty")
+      setSubitted(false)
+      return
+    }
     const data = {
       firstName: fname,
       lastName: lname,
@@ -55,10 +61,9 @@ export default function page() {
         method: "GET",
       });
       const response = await data.json();
-      console.log(typeof response)
-      if (typeof response != "object") {
+      if (Object.keys(response).length == 1) {
         setSubitted(false)
-        setEmail(response);
+        setEmail(response.email);
       } else {
         setFName(response.firstName);
         setLName(response.lastName);
@@ -129,11 +134,11 @@ export default function page() {
             </div>
           </form>
         </div>
-        <div className="sm:h-1/6 my-5 sm:my-0 w-full sm:mt-2 bg-white sm:p-5">
+        <div className="sm:h-1/6 my-5 sm:my-0 w-full sm:mt-2 sm:p-5">
           {submitted ? (
             <button
               type="submit"
-              className="w-full sm:w-20 sm:float-right text-white bg-purple-600 rounded py-2 my-2"
+              className="w-full sm:w-20 sm:float-right text-white bg-purple-600 rounded py-2 my-10 sm:my-2"
               onClick={updateInfo}
             >
               Update
@@ -141,7 +146,7 @@ export default function page() {
           ) : (
             <button
               type="submit"
-              className="w-full sm:w-20 sm:float-right text-white bg-purple-600 rounded py-2 my-2"
+              className="w-full sm:w-20 sm:float-right text-white bg-purple-600 rounded py-2 my-10 sm:my-2"
               onClick={submitInfo}
             >
               Save

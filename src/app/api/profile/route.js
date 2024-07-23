@@ -45,6 +45,7 @@ export const PATCH = async (request) => {
   const { firstName, lastName } = await request.json();
   const currentUser = cookies().get("currentUser");
   const user = await Userl.findOne({ user: currentUser.value });
+  console.log(currentUser.value)
   if (user.firstName == firstName && user.lastName == lastName)
     return NextResponse.json({ message: "Data is not modified", status: 200 });
 
