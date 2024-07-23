@@ -10,7 +10,8 @@ export const GET = async (request) => {
     await connectMongoose();
     const user = await Userl.findOne({ user: currentUser.value });
     let actualUser = await User.findById(currentUser.value);
-    if (!user) {
+    console.log(user, currentUser)
+    if (user == null) {
       return NextResponse.json(actualUser.email);
     }
     let u = {
