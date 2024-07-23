@@ -6,6 +6,7 @@ import { genRand } from "../../utilities/randomGenerator";
 import Popup from "@/app/component/Notify";
 import LinkBar from "@/app/component/LinkBar";
 import { useRouter } from 'next/navigation'
+import { withCoalescedInvoke } from "next/dist/lib/coalesced-function";
 
 
 export default function page() {
@@ -40,7 +41,7 @@ export default function page() {
       body: JSON.stringify(links),
     });
     if (response.ok) {
-      router.push("/")
+      window.location.reload()
       const f = await response.json();
       Setpop((pop) => (pop = f.message));
     }
@@ -52,6 +53,7 @@ export default function page() {
       body: JSON.stringify(index),
     });
     if (response.ok) {
+      window.location.reload()
       router.push("editor")
       const f = await response.json();
       Setpop((pop) => (pop = f.message));
@@ -65,7 +67,6 @@ export default function page() {
       if (response.message == "no items found") return;
       let arr = [];
       let res = [];
-      // console.log(Object.values(response[1]))
       for (const key in response) arr.push(response[key]);
       for (let i = 0; i < arr.length; i++) {
         for (const key in arr[i]) {

@@ -43,13 +43,7 @@ export const DELETE = async (req,res) => {
     try {
         await connectMongoose()
         let user = await Userl.findOne({ user: currentUser.value });
-        const newArr = []
-        for(let i=0;i<user.links.length;i++){
-            if(Object.keys(user.links[i])[0] != id){
-                newArr.push(user.links[i])
-            }
-        }
-        user.links = newArr
+        user.links = user.links.filter(el => !Object.keys(el).includes(id))
         user.save()
         return NextResponse.json({message:"Your changes have been successfully saved"},{status:200})
 
