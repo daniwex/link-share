@@ -20,7 +20,7 @@ export const GET = async (request) => {
     }
     return NextResponse.json(actualUser.email);
   } catch (error) {
-    return NextResponse.json(error, { status: 500 });
+    return NextResponse.json(error, { status: 501 });
   }
 };
 
