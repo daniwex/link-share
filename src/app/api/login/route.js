@@ -29,3 +29,22 @@ export const POST = async (req, res) => {
   });
   return response;
 };
+
+
+export const GET = async (req) => {
+  const currentUser = cookies().get("currentUser");
+  try {
+    await connectMongoose();
+    let user = await User.findById(currentUser.value);
+    let value = {
+      id:user._id,
+      email: user.email,
+    }
+    if(user) return NextResponse.json(value, {status: 200})
+    else return NextResponse.json({message:"something went wrong"})
+    } catch (error) {
+    console.log(error)
+    return NextResponse.json({message:"No user found"}, {status:404})
+
+  }
+}

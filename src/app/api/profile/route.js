@@ -30,10 +30,14 @@ export const POST = async (request) => {
   const currentUser = cookies().get("currentUser");
   try {
     await connectMongoose();
-    let user = new Userl({ user: currentUser.value, firstName, lastName });
+    let user = await Userl.findOne({ user: currentUser.value });
     if (!user) {
-      return NextResponse.json({ error: "user not found" }, { status: 400 });
+      let user = new Userl({ user: currentUser.value, firstName, lastName });
+      await user.save();
+      return NextResponse.json(user, { status: 200 });
     }
+    user.firstName = firstName
+    user.lastName = lastName
     await user.save();
     return NextResponse.json(user, { status: 200 });
   } catch (error) {
