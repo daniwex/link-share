@@ -18,7 +18,6 @@ export const GET = async (request) => {
 export const POST = async (req, res) => {
     const currentUser = cookies().get("currentUser");
     const Links = await req.json()
-    console.log(Links)
     try {
         await connectMongoose()
         let user = await Userl.findOne({ user: currentUser.value });

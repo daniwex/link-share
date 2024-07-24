@@ -35,7 +35,6 @@ export default function page() {
 
   async function updateInfo(e) {
     e.preventDefault();
-    console.log(fname, lname);
     if (fname == "" || lname == "") {
       Setpop("First / Last name cannot be empty");
       return;
@@ -60,7 +59,6 @@ export default function page() {
         method: "GET",
       });
       const response = await data.json();
-      console.log(response);
       if (typeof response != "object") {
         setSubitted(false);
         setEmail(response);
