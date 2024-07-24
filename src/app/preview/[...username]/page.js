@@ -4,6 +4,9 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Suspense } from "react";
+import { useRouter } from "next/navigation"
+import Notify from "@/app/component/Notify";
+
 
 export default function page() {
   const pathname = usePathname();
@@ -11,6 +14,17 @@ export default function page() {
   const [data, setData] = useState({});
   const [links, setLinks] = useState([]);
   let [showInfo, setShowInfo] = useState(false)
+  let [showPop, setShowPop] = useState(false)
+  const router = useRouter()
+
+  function copyText(entryText){
+    navigator.clipboard.writeText(entryText);
+  } 
+  function saveToClipBoard(){
+    copyText(window.location.href)
+    setShowPop(true)
+  }
+
   useEffect(() => {
     async function getUser() {
       const data = await fetch("/api/preview", {
@@ -45,6 +59,12 @@ export default function page() {
 
   return (
     <div className="h-screen">
+      {
+        showPop ? 
+        <Notify message="The link has been copied to your clipboard!" justifyContent="space-around" width="300px" close={() => setShowPop(false)} position="90%" />
+        :
+        <></>
+      }
       {data.loggedIn ? (
         <Suspense fallback={<p>loading</p>}>
           <div className="flex justify-between p-5">
@@ -54,12 +74,12 @@ export default function page() {
             >
               Back to Editor
             </Link>
-            <Link
-              href=""
+            <button
+              onClick={saveToClipBoard}
               className=" text-white bg-purple-600 rounded py-2 px-6"
             >
               Share Link
-            </Link>
+            </button>
           </div>
         </Suspense>
       ) : (
