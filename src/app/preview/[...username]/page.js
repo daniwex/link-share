@@ -12,7 +12,7 @@ export default function page() {
   // console.log(pathname.split('/')[2])
   useEffect(
     () =>
-      async function getUser() {
+    {  async function getUser() {
         const data = await fetch("/api/preview", {
           method: "POST",
           body: JSON.stringify(id),
@@ -23,7 +23,9 @@ export default function page() {
           setLinks(response.links);
         }
         // console.log(response.links)
-      },
+      }
+      getUser()
+    },
     []
   );
   return (

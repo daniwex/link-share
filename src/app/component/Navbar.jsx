@@ -8,14 +8,16 @@ export default function Navbar() {
   const [currentUser, setCurrentUser] = useState([]);
   useEffect(
     () =>
-      async function getUser() {
+     { async function getUser() {
         const data = await fetch("/api/login");
         if (data.ok) {
           const res = await data.json();
           console.log(res)
           setCurrentUser([res.id, res.email.split('@')[0]]);
         }
-      },
+      }
+      getUser()
+    },
     []
   );
   return (
