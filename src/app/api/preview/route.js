@@ -15,10 +15,10 @@ export const POST = async (req) => {
             email: loginDetails.email,
             full_name: userDetails.firstName + ' ' + userDetails.lastName,
             links: userDetails.links,
-            loggedIn: currentUser != null
+            loggedIn: currentUser?.value == id[0]
         }
         return NextResponse.json(response, {status:200})
     } catch (error) {
-        console.log(error)
+        return NextResponse.json({message:"user not found"})
     }
 }
